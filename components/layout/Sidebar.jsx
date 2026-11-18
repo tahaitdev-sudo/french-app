@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GraduationCap, Landmark, PenLine, RotateCcw, Timer } from 'lucide-react';
+import { CalendarCheck, GraduationCap, Landmark, Layers, PenLine, RotateCcw, Timer } from 'lucide-react';
 import Fr from '@/components/Fr';
 import { useProgress } from '@/components/ProgressProvider';
 import { NAV_ITEMS, isActivePath } from './navItems';
@@ -112,6 +112,32 @@ export default function Sidebar() {
         >
           <PenLine className="h-5 w-5" />
           التعبير الكتابي
+        </Link>
+
+        <Link
+          href="/plan"
+          aria-current={pathname.startsWith('/plan') ? 'page' : undefined}
+          className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+            pathname.startsWith('/plan')
+              ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
+              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+          }`}
+        >
+          <CalendarCheck className="h-5 w-5" />
+          خطة اليوم
+        </Link>
+
+        <Link
+          href="/flashcards"
+          aria-current={pathname.startsWith('/flashcards') ? 'page' : undefined}
+          className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+            pathname.startsWith('/flashcards')
+              ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
+              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+          }`}
+        >
+          <Layers className="h-5 w-5" />
+          بطاقات المفردات
         </Link>
       </nav>
 

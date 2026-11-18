@@ -16,6 +16,8 @@ const STATIC_ROUTES = [
   '/exam/speaking',
   '/civic',
   '/writing',
+  '/plan',
+  '/flashcards',
 ];
 
 const ALL_URLS = [

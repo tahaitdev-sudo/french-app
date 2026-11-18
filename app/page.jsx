@@ -86,6 +86,27 @@ export default function DashboardPage() {
 
       <div className="grid gap-3 sm:grid-cols-2">
         <Link
+          href="/plan"
+          className="card border-indigo-300 bg-indigo-50 transition hover:border-indigo-400 dark:border-indigo-800 dark:bg-indigo-950/40"
+        >
+          <h2 className="font-bold">خطة اليوم</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            مهام يومية مرتبة حسب تقدمك، وتقدير لجاهزيتك لـ B2.
+          </p>
+        </Link>
+        <Link
+          href="/flashcards"
+          className="card transition hover:border-indigo-300 dark:hover:border-indigo-700"
+        >
+          <h2 className="font-bold">بطاقات المفردات</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            مراجعة المفردات بالتكرار المتباعد لتثبّتها في الذاكرة.
+          </p>
+        </Link>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Link
           href="/civic"
           className="card transition hover:border-indigo-300 dark:hover:border-indigo-700"
         >
