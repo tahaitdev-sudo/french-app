@@ -7,6 +7,8 @@ import { playComplete, playCorrect, playWrong } from '@/lib/sounds';
 import { useProgress } from '@/components/ProgressProvider';
 import ProgressBar from '@/components/ProgressBar';
 import SpeakButton from '@/components/SpeakButton';
+import Xp from '@/components/Xp';
+import { fixBidi } from '@/lib/bidi';
 import MCQQuestion from './MCQQuestion';
 import FillBlankQuestion from './FillBlankQuestion';
 import QuizResult from './QuizResult';
@@ -27,9 +29,17 @@ function Feedback({ question, result }) {
     >
       <p className="flex items-center gap-2 font-bold">
         {ok ? <CheckCircle2 className="h-5 w-5" /> : <XCircle className="h-5 w-5" />}
-        {ok ? `إجابة صحيحة! +${XP_PER_CORRECT} XP` : 'إجابة خاطئة'}
+        {ok ? (
+          <span>
+            إجابة صحيحة! <Xp value={XP_PER_CORRECT} plus />
+          </span>
+        ) : (
+          'إجابة خاطئة'
+        )}
       </p>
-      {question.explanation && <p className="text-sm leading-relaxed">{question.explanation}</p>}
+      {question.explanation && (
+        <p className="text-sm leading-relaxed">{fixBidi(question.explanation)}</p>
+      )}
       {sentence && (
         <div className="flex items-center gap-2 pt-1">
           <SpeakButton text={sentence} size="sm" />
@@ -43,7 +53,8 @@ function Feedback({ question, result }) {
 }
 
 // review = true : mode « révision des erreurs » (les XP ne comptent pas comme un quiz de plus)
-export default function QuizEngine({ quiz, onRetry, review = false }) {
+// track = false : n'enregistre pas les erreurs dans la révision (ex. examen civique)
+export default function QuizEngine({ quiz, onRetry, review = false, track = true }) {
   const { recordQuiz, addXp, recordMistake, resolveMistake } = useProgress();
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -60,8 +71,8 @@ export default function QuizEngine({ quiz, onRetry, review = false }) {
     setResult({ correct, given });
     if (correct) {
       setScore((s) => s + 1);
-      resolveMistake(question.id);
-    } else {
+      if (track) resolveMistake(question.id);
+    } else if (track) {
       recordMistake(question.id, question.quizId ?? quiz.id);
     }
     if (soundOn) (correct ? playCorrect : playWrong)();

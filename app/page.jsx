@@ -10,6 +10,10 @@ import StatCard from '@/components/dashboard/StatCard';
 import DailyGoalCard from '@/components/dashboard/DailyGoalCard';
 import WordOfTheDay from '@/components/dashboard/WordOfTheDay';
 import ModuleCard from '@/components/ModuleCard';
+import LevelPath from '@/components/dashboard/LevelPath';
+import ReminderCard from '@/components/ReminderCard';
+import Xp from '@/components/Xp';
+import InstallCard from '@/components/InstallCard';
 
 export default function DashboardPage() {
   const {
@@ -21,6 +25,8 @@ export default function DashboardPage() {
     completedLessons,
     quizResults,
     mistakesCount,
+    placement,
+    ready,
   } = useProgress();
   const [word, setWord] = useState(null);
 
@@ -37,11 +43,75 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <LevelHero level={level} nextLesson={nextLesson} />
 
+      {ready && (
+        <Link
+          href="/placement"
+          className="card flex items-center justify-between gap-4 border-indigo-200 bg-indigo-50 transition hover:border-indigo-300 dark:border-indigo-900 dark:bg-indigo-950/40"
+        >
+          <div>
+            <h2 className="font-bold">
+              {placement ? 'أعد اختبار تحديد المستوى' : 'لا تعرف مستواك؟ حدّده في 5 دقائق'}
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300">
+              {placement ? (
+                <>
+                  نتيجتك السابقة: <span dir="ltr" className="inline-block font-bold">{placement.level}</span>{' '}
+                  ({placement.score}/{placement.total} إجابة صحيحة).
+                </>
+              ) : (
+                '20 سؤالاً من A1 إلى C1، وتبدأ بعدها من المستوى المناسب لك.'
+              )}
+            </p>
+          </div>
+          <span className="shrink-0 text-sm font-semibold text-indigo-600 dark:text-indigo-300">
+            ابدأ
+          </span>
+        </Link>
+      )}
+
+      <Link
+        href="/exam"
+        className="card flex items-center justify-between gap-4 transition hover:border-indigo-300 dark:hover:border-indigo-700"
+      >
+        <div>
+          <h2 className="font-bold">تحضير للجنسية؟ جرّب محاكاة TCF IRN</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            فهم مسموع ومقروء بنفس عدد الأسئلة والمدة، مع تقدير تقريبي للمستوى.
+          </p>
+        </div>
+        <span className="shrink-0 text-sm font-semibold text-indigo-600 dark:text-indigo-300">
+          ابدأ
+        </span>
+      </Link>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Link
+          href="/civic"
+          className="card transition hover:border-indigo-300 dark:hover:border-indigo-700"
+        >
+          <h2 className="font-bold">الامتحان المدني</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            40 سؤالاً تدريبياً عن فرنسا ومؤسساتها وتاريخها.
+          </p>
+        </Link>
+        <Link
+          href="/writing"
+          className="card transition hover:border-indigo-300 dark:hover:border-indigo-700"
+        >
+          <h2 className="font-bold">التعبير الكتابي</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            اكتب نصاً واحصل على تحليل فوري ونموذج إجابة.
+          </p>
+        </Link>
+      </div>
+
+      <LevelPath levels={level.all} currentCode={level.code} />
+
       <section aria-label="إحصائياتك" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatCard
           Icon={Zap}
           label="مجموع النقاط"
-          value={`${xp} XP`}
+          value={<Xp value={xp} />}
           tint="bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-300"
         />
         <StatCard
@@ -111,6 +181,11 @@ export default function DashboardPage() {
         </div>
       </section>
 
+      <div className="grid gap-4 md:grid-cols-2">
+        <ReminderCard />
+        <InstallCard />
+      </div>
+
       <section className="card flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <span className="grid h-11 w-11 place-items-center rounded-xl bg-rose-100 text-rose-600 dark:bg-rose-950 dark:text-rose-300">
@@ -119,7 +194,7 @@ export default function DashboardPage() {
           <div>
             <h2 className="font-bold">جاهز للتحدي؟</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              كل إجابة صحيحة تمنحك 5 XP، والعلامة الكاملة تمنحك مكافأة إضافية.
+              كل إجابة صحيحة تمنحك <Xp value={5} />، والعلامة الكاملة تمنحك مكافأة إضافية.
             </p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { RotateCcw, Trophy, Zap } from 'lucide-react';
 import ProgressBar from '@/components/ProgressBar';
+import Xp from '@/components/Xp';
 
 function getMessage(pct) {
   if (pct === 100) return 'علامة كاملة! أداء مذهل.';
@@ -37,7 +38,8 @@ export default function QuizResult({ quiz, score, total, earned, onRetry }) {
       </div>
 
       <p className="mx-auto inline-flex items-center gap-2 rounded-xl bg-amber-100 px-4 py-2 font-bold text-amber-700 dark:bg-amber-950 dark:text-amber-300">
-        <Zap className="h-5 w-5" />+{earned} XP
+        <Zap className="h-5 w-5" />
+        <Xp value={earned} plus />
       </p>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">

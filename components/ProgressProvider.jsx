@@ -8,12 +8,10 @@ import {
   useMemo,
   useState,
 } from 'react';
-import {
-  DAILY_GOAL,
-  PERFECT_BONUS,
-  XP_PER_CORRECT,
-  getLevelInfo,
-} from '@/lib/levels';
+import { DAILY_GOAL, PERFECT_BONUS, XP_PER_CORRECT } from '@/lib/levels';
+import { computeMastery } from '@/lib/mastery';
+import { LESSONS, QUIZZES } from '@/lib/data';
+import { WRITING_XP } from '@/lib/writing-data';
 
 const STORAGE_KEY = 'fr-learn-progress-v1';
 
@@ -26,6 +24,9 @@ const initialState = {
   completedLessons: [],
   quizResults: {},
   mistakes: {}, // { [questionId]: quizId } — questions à réviser
+  placement: null, // { level, score, total, date } — résultat du test de niveau
+  examResults: {}, // { co|ce: { best, last, total, date, attempts } } — simulation TCF IRN
+  writings: {}, // { [taskId]: { words, date } } — tâches d'expression écrite terminées
 };
 
 /* ---------- helpers (fonctions pures) ---------- */
@@ -150,6 +151,43 @@ export function ProgressProvider({ children }) {
     });
   }, []);
 
+  const setPlacement = useCallback((level, score, total) => {
+    setState((prev) => ({
+      ...prev,
+      placement: { level, score, total, date: dateKey() },
+    }));
+  }, []);
+
+  const recordExam = useCallback((section, score, total) => {
+    setState((prev) => {
+      const old = prev.examResults?.[section];
+      return {
+        ...prev,
+        examResults: {
+          ...prev.examResults,
+          [section]: {
+            best: Math.max(old?.best ?? 0, score),
+            last: score,
+            total,
+            date: dateKey(),
+            attempts: (old?.attempts ?? 0) + 1,
+          },
+        },
+      };
+    });
+  }, []);
+
+  // XP accordés une seule fois par sujet
+  const completeWriting = useCallback((taskId, words) => {
+    setState((prev) => {
+      if (prev.writings?.[taskId]) return prev;
+      return applyXp(
+        { ...prev, writings: { ...prev.writings, [taskId]: { words, date: dateKey() } } },
+        WRITING_XP,
+      );
+    });
+  }, []);
+
   const resetProgress = useCallback(() => setState(initialState), []);
 
   const value = useMemo(() => {
@@ -157,10 +195,19 @@ export function ProgressProvider({ children }) {
     const streakAlive =
       state.lastActiveDate === today || state.lastActiveDate === yesterdayKey();
 
+    const mastery = computeMastery(state, LESSONS, QUIZZES, state.placement?.level ?? null);
+
     return {
       ...state,
       ready,
-      level: getLevelInfo(state.xp),
+      level: {
+        ...mastery.current,
+        progress: mastery.progress,
+        remaining: mastery.remaining,
+        isMax: mastery.isMax,
+        next: mastery.next,
+        all: mastery.levels,
+      },
       currentStreak: streakAlive ? state.streak : 0,
       todayXp: state.dailyXp[today] || 0,
       dailyGoal: DAILY_GOAL,
@@ -170,6 +217,9 @@ export function ProgressProvider({ children }) {
       recordQuiz,
       recordMistake,
       resolveMistake,
+      setPlacement,
+      recordExam,
+      completeWriting,
       resetProgress,
     };
   }, [
@@ -180,6 +230,9 @@ export function ProgressProvider({ children }) {
     recordQuiz,
     recordMistake,
     resolveMistake,
+    setPlacement,
+    recordExam,
+    completeWriting,
     resetProgress,
   ]);
 

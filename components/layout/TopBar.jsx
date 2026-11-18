@@ -2,6 +2,7 @@
 
 import { Flame, Zap } from 'lucide-react';
 import Fr from '@/components/Fr';
+import Xp from '@/components/Xp';
 import ThemeToggle from '@/components/ThemeToggle';
 import { useProgress } from '@/components/ProgressProvider';
 import { Logo } from './Sidebar';
@@ -32,7 +33,7 @@ export default function TopBar() {
         <div className="flex items-center gap-2">
           <Chip className="bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300">
             <Zap className="h-4 w-4" />
-            {xp} XP
+            <Xp value={xp} />
           </Chip>
           <Chip className="bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300">
             <Flame className="h-4 w-4" />

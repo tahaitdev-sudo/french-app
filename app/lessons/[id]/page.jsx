@@ -8,6 +8,8 @@ import { LESSONS } from '@/lib/data';
 import { CATEGORIES } from '@/lib/categories';
 import { useProgress } from '@/components/ProgressProvider';
 import Fr from '@/components/Fr';
+import Xp from '@/components/Xp';
+import { fixBidi } from '@/lib/bidi';
 import VocabList from '@/components/lesson/VocabList';
 import RuleBlock from '@/components/lesson/RuleBlock';
 import ConjugationTable from '@/components/lesson/ConjugationTable';
@@ -66,8 +68,12 @@ export default function LessonPage() {
         <h1 className="text-3xl font-extrabold">
           <Fr>{lesson.title}</Fr>
         </h1>
-        <p className="text-lg font-semibold text-slate-600 dark:text-slate-300">{lesson.titleAr}</p>
-        <p className="max-w-2xl leading-relaxed text-slate-600 dark:text-slate-300">{lesson.intro}</p>
+        <p className="text-lg font-semibold text-slate-600 dark:text-slate-300">
+          {fixBidi(lesson.titleAr)}
+        </p>
+        <p className="max-w-2xl leading-relaxed text-slate-600 dark:text-slate-300">
+          {fixBidi(lesson.intro)}
+        </p>
       </header>
 
       {lesson.vocab && (
@@ -103,11 +109,17 @@ export default function LessonPage() {
         {completed ? (
           <p className="flex items-center gap-2 font-semibold text-emerald-600 dark:text-emerald-400">
             <CheckCircle2 className="h-5 w-5" />
-            {justEarned ? `أحسنت! حصلت على +${lesson.xp} XP` : 'أكملت هذا الدرس'}
+            {justEarned ? (
+              <span>
+                أحسنت! حصلت على <Xp value={lesson.xp} plus />
+              </span>
+            ) : (
+              'أكملت هذا الدرس'
+            )}
           </p>
         ) : (
           <p className="text-slate-600 dark:text-slate-300">
-            أنهيت القراءة؟ أكمل الدرس لتحصل على {lesson.xp} XP.
+            أنهيت القراءة؟ أكمل الدرس لتحصل على <Xp value={lesson.xp} />.
           </p>
         )}
 

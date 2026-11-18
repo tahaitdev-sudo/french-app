@@ -39,6 +39,42 @@ export default function QuizHubPage() {
         <ArrowLeft className="h-5 w-5 text-rose-500" />
       </Link>
 
+      <Link
+        href="/exam"
+        className="card flex items-center justify-between gap-4 border-sky-200 bg-sky-50 transition hover:border-sky-300 dark:border-sky-900 dark:bg-sky-950/40"
+      >
+        <div>
+          <h2 className="font-bold">محاكاة اختبار TCF IRN</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            20 سؤالاً للفهم المسموع (15 د) و20 للفهم المقروء (20 د)، ثم الكتابة والشفهي.
+          </p>
+        </div>
+        <ArrowLeft className="h-5 w-5 shrink-0 text-sky-500" />
+      </Link>
+
+
+      <Link
+        href="/civic"
+        className="card flex items-center justify-between gap-4 border-emerald-200 bg-emerald-50 transition hover:border-emerald-300 dark:border-emerald-900 dark:bg-emerald-950/40"
+      >
+        <div>
+          <h2 className="font-bold">الامتحان المدني</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">40 سؤالاً عن المبادئ والمؤسسات والتاريخ والحياة في فرنسا.</p>
+        </div>
+        <ArrowLeft className="h-5 w-5 shrink-0 text-emerald-500" />
+      </Link>
+
+      <Link
+        href="/writing"
+        className="card flex items-center justify-between gap-4 border-violet-200 bg-violet-50 transition hover:border-violet-300 dark:border-violet-900 dark:bg-violet-950/40"
+      >
+        <div>
+          <h2 className="font-bold">التعبير الكتابي</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">ثمانية مواضيع من A1 إلى B2 مع تحليل تلقائي ونموذج إجابة.</p>
+        </div>
+        <ArrowLeft className="h-5 w-5 shrink-0 text-violet-500" />
+      </Link>
+
       <div className="grid gap-4 sm:grid-cols-2">
         {QUIZZES.map((quiz) => {
           const cat = CATEGORIES[quiz.category];

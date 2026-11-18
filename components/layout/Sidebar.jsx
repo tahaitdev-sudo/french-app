@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GraduationCap, RotateCcw } from 'lucide-react';
+import { GraduationCap, Landmark, PenLine, RotateCcw, Timer } from 'lucide-react';
 import Fr from '@/components/Fr';
 import { useProgress } from '@/components/ProgressProvider';
 import { NAV_ITEMS, isActivePath } from './navItems';
@@ -73,6 +73,45 @@ export default function Sidebar() {
               {mistakesCount}
             </span>
           )}
+        </Link>
+
+        <Link
+          href="/exam"
+          aria-current={pathname.startsWith('/exam') ? 'page' : undefined}
+          className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+            pathname.startsWith('/exam')
+              ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
+              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+          }`}
+        >
+          <Timer className="h-5 w-5" />
+          محاكاة TCF IRN
+        </Link>
+
+        <Link
+          href="/civic"
+          aria-current={pathname.startsWith('/civic') ? 'page' : undefined}
+          className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+            pathname.startsWith('/civic')
+              ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
+              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+          }`}
+        >
+          <Landmark className="h-5 w-5" />
+          الامتحان المدني
+        </Link>
+
+        <Link
+          href="/writing"
+          aria-current={pathname.startsWith('/writing') ? 'page' : undefined}
+          className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+            pathname.startsWith('/writing')
+              ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
+              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+          }`}
+        >
+          <PenLine className="h-5 w-5" />
+          التعبير الكتابي
         </Link>
       </nav>
 

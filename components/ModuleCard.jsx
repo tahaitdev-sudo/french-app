@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import Fr from '@/components/Fr';
+import Xp from '@/components/Xp';
+import { fixBidi } from '@/lib/bidi';
 import { CATEGORIES } from '@/lib/categories';
 
 export default function ModuleCard({ lesson, completed = false }) {
@@ -24,7 +26,7 @@ export default function ModuleCard({ lesson, completed = false }) {
           </span>
         ) : (
           <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-950 dark:text-amber-300">
-            +{lesson.xp} XP
+            <Xp value={lesson.xp} plus />
           </span>
         )}
       </div>
@@ -33,9 +35,11 @@ export default function ModuleCard({ lesson, completed = false }) {
         <h3 className="text-lg font-bold">
           <Fr>{lesson.title}</Fr>
         </h3>
-        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{lesson.titleAr}</p>
+        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+          {fixBidi(lesson.titleAr)}
+        </p>
         <p className="line-clamp-2 text-sm text-slate-500 dark:text-slate-400">
-          {lesson.description}
+          {fixBidi(lesson.description)}
         </p>
       </div>
 

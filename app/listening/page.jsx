@@ -9,6 +9,7 @@ import { useProgress } from '@/components/ProgressProvider';
 import Fr from '@/components/Fr';
 import ProgressBar from '@/components/ProgressBar';
 import SpeakButton from '@/components/SpeakButton';
+import Xp from '@/components/Xp';
 
 const SESSION_SIZE = 6;
 
@@ -123,7 +124,8 @@ export default function ListeningPage() {
             <li>• يمكنك إعادة الاستماع بسرعة عادية أو ببطء.</li>
             <li>• الإجابة تُعدّ صحيحة حتى لو نسيت علامات التشكيل (é, è, à)، مع تنبيهك لها.</li>
             <li>
-              • كل جملة صحيحة تمنحك {XP_PER_CORRECT} XP، والعلامة الكاملة تمنحك +{PERFECT_BONUS} XP.
+              • كل جملة صحيحة تمنحك <Xp value={XP_PER_CORRECT} />، والعلامة الكاملة تمنحك{' '}
+              <Xp value={PERFECT_BONUS} plus /> إضافية.
             </li>
           </ul>
           <button type="button" onClick={start} className="btn btn-primary w-full">
@@ -149,7 +151,8 @@ export default function ListeningPage() {
           barClassName={score / total >= 0.6 ? 'bg-emerald-500' : 'bg-rose-500'}
         />
         <p className="mx-auto inline-flex items-center gap-2 rounded-xl bg-amber-100 px-4 py-2 font-bold text-amber-700 dark:bg-amber-950 dark:text-amber-300">
-          <Zap className="h-5 w-5" />+{earned} XP
+          <Zap className="h-5 w-5" />
+          <Xp value={earned} plus />
         </p>
         <div>
           <button type="button" onClick={start} className="btn btn-primary">

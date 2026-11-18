@@ -28,19 +28,26 @@ export default function LevelHero({ level, nextLesson }) {
           <div className="max-w-md space-y-2 pt-2">
             <ProgressBar
               value={level.progress}
-              label="التقدم نحو المستوى التالي"
+              label="إتقان محتوى المستوى الحالي"
               trackClassName="bg-white/25"
               barClassName="bg-white"
             />
             <p className="text-sm text-indigo-100">
               {level.isMax ? (
-                'وصلت إلى أعلى مستوى متاح. أحسنت!'
+                'أتممت كل دروس واختبارات المستويات المتاحة. أحسنت!'
               ) : (
                 <>
-                  {level.xpInto} / {level.span} XP — بقي {level.xpToNext} XP للوصول إلى{' '}
-                  <Fr className="font-bold">{level.next.code}</Fr>
+                  أنجزت{' '}
+                  <span dir="ltr" className="inline-block tabular-nums">
+                    {level.done} / {level.total}
+                  </span>{' '}
+                  من دروس واختبارات <Fr className="font-bold">{level.code}</Fr>. بقي {level.remaining}{' '}
+                  للانتقال إلى <Fr className="font-bold">{level.next?.code}</Fr>.
                 </>
               )}
+            </p>
+            <p className="text-xs text-indigo-200">
+              الدرس يُحتسب بإكماله، والاختبار بنتيجة 70٪ فأكثر.
             </p>
           </div>
         </div>

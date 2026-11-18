@@ -1,5 +1,6 @@
 import { Target } from 'lucide-react';
 import ProgressBar from '@/components/ProgressBar';
+import Xp from '@/components/Xp';
 
 export default function DailyGoalCard({ todayXp, goal }) {
   const done = todayXp >= goal;
@@ -13,7 +14,7 @@ export default function DailyGoalCard({ todayXp, goal }) {
           </span>
           <div>
             <h2 className="font-bold">الهدف اليومي</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">اجمع {goal} XP كل يوم</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">اجمع <Xp value={goal} /> كل يوم</p>
           </div>
         </div>
         <p className="text-lg font-extrabold tabular-nums">
@@ -33,7 +34,11 @@ export default function DailyGoalCard({ todayXp, goal }) {
           ? 'أنجزت هدف اليوم، عمل رائع! استمر للحفاظ على سلسلتك.'
           : todayXp === 0
             ? 'لم تبدأ بعد اليوم. درس واحد أو اختبار سريع يكفي للبداية.'
-            : `بقي ${goal - todayXp} XP لإكمال هدف اليوم.`}
+            : (
+              <>
+                بقي <Xp value={goal - todayXp} /> لإكمال هدف اليوم.
+              </>
+            )}
       </p>
     </section>
   );

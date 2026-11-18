@@ -1,6 +1,7 @@
 import { Lightbulb } from 'lucide-react';
 import Fr from '@/components/Fr';
 import SpeakButton from '@/components/SpeakButton';
+import { fixBidi } from '@/lib/bidi';
 
 export default function RuleBlock({ rule }) {
   return (
@@ -11,7 +12,7 @@ export default function RuleBlock({ rule }) {
         </span>
         <div className="space-y-1">
           <h3 className="text-lg font-bold">{rule.title}</h3>
-          <p className="leading-relaxed text-slate-600 dark:text-slate-300">{rule.body}</p>
+          <p className="leading-relaxed text-slate-600 dark:text-slate-300">{fixBidi(rule.body)}</p>
         </div>
       </div>
 
